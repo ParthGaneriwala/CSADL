@@ -1,0 +1,72 @@
+Assumption Examples:
+
+    Example 1:
+    (assumption asset_iot_device association_connect asset_server;)
+
+        assume iotDeviceA isConnectedTo serverA;
+
+    Example 2:
+    (assumption asset_computer association_connect (asset_server | asset_computer | asset_io_dvice);)
+
+        assumption asset_computer association_connect asset_server;
+            assume computerA isConnectedTo serverA;
+
+        assumption asset_computer association_connect asset_computer;
+            assume computerA isConnectedTo computerB;
+
+        assumption asset_computer association_connect asset_iot_device;
+            assume computerA isConnectedTo iotDeviceA;
+
+    Example 3:
+    (assumption asset_iot_device association_has (asset_software_feature | asset_hardware_component);)
+
+        assumption asset_iot_device association_has asset_software_feature;
+
+            assume iotDeviceA has internetFeature;
+            assume iotDeviceA has securityFeature;
+            assume iotDeviceA has smartFeature;
+
+        assumption asset_iot_device association_has asset_hardware_component;
+
+            assume iotDeviceB has hardwareComponentCamera;
+            assume iotDeviceC has hardwareComponentMicroprocessor;
+
+Guarantee Examples:
+
+    Example 1:
+    (guarantee asset_iot_device action_communicate thing asset_server;)
+
+        guarantee iotDeviceA send data serverA;
+        guarantee iotDeviceA send message serverA;
+        guarantee iotDeviceA receive data serverA;
+        guarantee iotDeviceA receive message serverA;
+
+    Example 2:
+    (guarantee asset_computer action_communicate thing (asset_server | asset_computer | asset_iot_device);)
+
+        guarantee asset_computer action_communicate thing asset_server;
+
+            guarantee computerA send data serverA;
+            guarantee computerA send message serverA;
+            guarantee computerA receive data serverA;
+            guarantee computerA receive message serverA;
+
+        guarantee asset_computer action_communicate thing asset_computer;
+
+            guarantee computerA send data computerB;
+            guarantee computerA send message computerB;
+            guarantee computerB receive data computerB;
+            guarantee computer receive message computerB;
+
+        guarantee asset_computer action_communicate thing asset_iot_device;
+
+            guarantee computerA send data iotDeviceA;
+            guarantee computerA send message iotDeviceA;
+            guarantee computerB receive data iotDeviceA;
+            guarantee computer receive message iotDeviceA;
+
+    Example 3:
+    (guarantee asset_iot_device action_has software_feature;)
+
+        guarantee iotDeviceA performs accessPointCreation;
+        guarantee iotDevice performs thermalImageRecognition;
