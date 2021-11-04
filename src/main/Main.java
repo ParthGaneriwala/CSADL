@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         //Process and input file
-        String dataFile = "../src/data/v1_examples/aaa.txt";
+        String dataFile = "/home/parthetic/CSADL/src/data/v1_examples/aaa.txt";
         CSADLFileProcessor csadlFileProcessor = new CSADLFileProcessor();
         CSADBObject csadbObject = csadlFileProcessor.processCSADLFile(dataFile);
 

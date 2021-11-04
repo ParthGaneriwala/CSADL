@@ -32,6 +32,7 @@ assumption5: ASSUMPTION THING SENSITIVITY CONTENT;
 //assume computerA hasCreated messageA;
 //assume iotDeviceA hasCreated messageB;
 assumption6: ASSUMPTION (ASSET_COMPUTER | ASSET_IOT_DEVICE) ASSOCIATION_CREATE THING;
+
 //guarantee iotDeviceA send data serverA;
 //guarantee iotDeviceA send message serverA;
 //guarantee iotDeviceA receive data serverA;
@@ -58,7 +59,7 @@ guarantee2: GUARANTEE ASSET_COMPUTER ACTION_COMMUNICATE THING (ASSET_SERVER | AS
 //guarantee iotDevice performs thermalImageRecognition;
 guarantee3: GUARANTEE ASSET_IOT_DEVICE ACTION_HAS SOFTWARE_FEATURE ; // come up with a guarantee for hardware components
 
-guarantee4: GUARANTEE (ASSET_COMPUTER | ASSET_IOT_DEVICE | ASSET_SERVER) ACTION (ASSET_COMPUTER | ASSET_IOT_DEVICE |THING)
+guarantee4: GUARANTEE (ASSET_COMPUTER | ASSET_IOT_DEVICE | ASSET_SERVER) ACTION_COMMUNICATE (ASSET_COMPUTER | ASSET_IOT_DEVICE |THING);
 // assumption1:  ASSUMPTION ASSET ASSOCIATION (ASSET|MESSAGE) ;
 // assumption2: ASSUMPTION MESSAGE SENSITIVITY CONTENT;
 // guarantee:   GUARANTEE ASSET  ACTION  (ASSET|MESSAGE) ;
@@ -66,13 +67,14 @@ guarantee4: GUARANTEE (ASSET_COMPUTER | ASSET_IOT_DEVICE | ASSET_SERVER) ACTION 
 ASSET_COMPUTER: 'computer' IDENTIFIER ;
 ASSET_IOT_DEVICE: 'iotDevice' IDENTIFIER ;
 ASSET_SERVER: 'server' IDENTIFIER ;
+
 ASSET_SOFTWARE_FEATURE : 'internetFeature' | 'securityFeature' | 'smartFeature' ;
 ASSET_HARDWARE_COMPONENT: 'hardwareComponent' IDENTIFIER ;
 
 SOFTWARE_FEATURE: IDENTIFIER ; // the identifier can hold a value such as accessPointCreation etc.
 THING: 'data' | 'message';
 
-IDENTIFIER: [A..Z]+[A..Z_0..9]+ ;
+IDENTIFIER: [A-Z]+[A-Z_0-9]+ ;
 BEGIN: '{' ;
 END: '}';
 ENDSYMBOL:';';
@@ -82,7 +84,8 @@ ASSUMPTION: 'assume';
 // ACTION_TYPES (Specific to asset: Eg; Message Action, Data Action)
 
 ASSOCIATION_CONNECT: 'isConnectedTo' ;
-ACTION_COMMUNICATE: 'send' | 'receive' ;
+ACTION_COMMUNICATE:   'encrypt'   | 'decrypt' | 'read'  |
+                      'send'      | 'receive' | 'forward' ;
 
 ASSOCIATION_HAS: 'has' ; // if it has a particular feature, then it can perform that action
 ACTION_HAS: 'performs' ;
@@ -93,8 +96,8 @@ ASSOCIATION_COMPUTER: 'is';
 ACTION_HARDWARE_COMPONENT: ;
 ACTION_SERVER: ;
 
-ACTION:       'encrypt'   | 'decrypt' | 'read'  |
-              'send'      | 'receive' | 'forward'  ;
+//ACTION:       'encrypt'   | 'decrypt' | 'read'  |
+//              'send'      | 'receive' | 'forward'  ;
 
 ASSOCIATION_KEY:  'knowKeyOf'  | 'hasKeyOf';
 ASSOCIATION_CREATE: 'created';
