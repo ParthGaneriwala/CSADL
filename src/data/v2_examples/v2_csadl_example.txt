@@ -6,7 +6,7 @@ Assumption Examples:
         assume iotDeviceA isConnectedTo serverA;
 
     Example 2:
-    (assumption asset_computer association_connect (asset_server | asset_computer | asset_io_dvice);)
+    (assumption asset_computer association_connect (asset_server | asset_computer | asset_iot_device);)
 
         assumption asset_computer association_connect asset_server;
             assume computerA isConnectedTo serverA;

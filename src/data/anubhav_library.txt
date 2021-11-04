@@ -10,7 +10,7 @@ library.put("decryptMsgFrom", "knowKeyOf");
 
 // If the user/ computer has created the msg, it can forward the msg
 library.put("forward", "hasCreated");
-
+                            
 
 ********************************************************************
 ******** New Mappings with iotDevice Ontology Integration **********
