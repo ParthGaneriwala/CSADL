@@ -1,4 +1,4 @@
-grammar Security;
+grammar security;
 
 csadl: BEGIN statement+ END ;
 
