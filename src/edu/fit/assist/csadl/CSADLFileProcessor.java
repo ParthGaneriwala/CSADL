@@ -11,7 +11,9 @@ import java.io.*;
  *
  */
 public class CSADLFileProcessor {
-    private static final int statementLength = 5;
+    private static final int statementLength = 5; // Outdated
+    private static final int assumeStatementLength[] = {4};
+    private static final int guaranteeStatementLength[] = {4,5};
     private CSADBObject csadbObject;
 
     public CSADLFileProcessor(){
@@ -33,29 +35,53 @@ public class CSADLFileProcessor {
 
         // Go through each line in the input file
         while ((line = br.readLine()) != null) {
+
             if (!line.trim().equals("")) {
                 String[] lineParts = line.split(" ");
-                if(lineParts.length == statementLength){
+                // Check if the length of line parts matches that of an assume statement
+                if(contains(assumeStatementLength, lineParts.length)) {
 
                     //a statement consists of :statementType, thingA, association, thingB
                     //differentiate between assumption and guarantees
-                    if(lineParts[0].equalsIgnoreCase("assume")){
+                    if (lineParts[0].equalsIgnoreCase("assume")) {
                         statementType = StatementType.assume;
                         Statement statement = new Statement(statementType, lineParts[1], lineParts[2], lineParts[3]);
                         this.csadbObject.addAssume(statement);
                     }
-                    else if(lineParts[0].equalsIgnoreCase("guarantee")){
+                }
+                // Check if the length of line parts matches that of an guarantee statement
+                if(contains(guaranteeStatementLength, lineParts.length)) {
+                    if (lineParts[0].equalsIgnoreCase("guarantee")) {
                         statementType = StatementType.guarantee;
-                        Statement statement = new Statement(statementType, lineParts[1], lineParts[2], lineParts[3]);
+                        Statement statement = null;
+                        switch(lineParts.length) {
+                            case 4:
+                                statement = new Statement(statementType, lineParts[1], lineParts[2], lineParts[3]);
+                                break;
+                            case 5:
+                                statement = new Statement(statementType, lineParts[1], lineParts[2], lineParts[3], lineParts[4]);
+                                break;
+                            default:
+                                System.err.println("ERROR: guarantee statement with size "+(lineParts.length) + " not supported!");
+                                break;
+                        }
+                        assert(statement != null);
                         this.csadbObject.addGuarantee(statement);
                     }
                     lineCount++;
                 }
             }
 
+
         }
         br.close();
         return this.csadbObject;
     }
-
+    private boolean contains(int arr[], int value){
+        for(int i=0;i<arr.length;i++){
+            if(arr[i] == value)
+                return true;
+        }
+        return false;
+    }
 }

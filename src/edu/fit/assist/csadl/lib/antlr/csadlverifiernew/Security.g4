@@ -1,8 +1,11 @@
-grammar security;
-
-csadl: BEGIN statement+ END ;
-
-statement: (assumption1  | assumption2 | assumption3 | assumption4 | assumption5 | guarantee1 | guarantee2  |guarantee3 |guarantee4) ENDSYMBOL ;
+grammar Security;
+@header
+{
+package edu.fit.assist.csadl.lib.antlr.csadlverifiernew;
+}
+//csadl: BEGIN statement+ END ;
+csadl : statement+ ;
+statement: (assumption1  | assumption2 | assumption3 | assumption4 | assumption5 |assumption6| guarantee1 | guarantee2  |guarantee3 |guarantee4) ENDSYMBOL ;
 
 //assume iotDeviceA isConnectedTo serverA;
 assumption1: ASSUMPTION ASSET_IOT_DEVICE ASSOCIATION_CONNECT ASSET_SERVER ;
@@ -72,11 +75,11 @@ ASSET_SOFTWARE_FEATURE : 'internetFeature' | 'securityFeature' | 'smartFeature' 
 ASSET_HARDWARE_COMPONENT: 'hardwareComponent' IDENTIFIER ;
 
 SOFTWARE_FEATURE: IDENTIFIER ; // the identifier can hold a value such as accessPointCreation etc.
-THING: 'data' | 'message';
+THING: ('data' | 'message') IDENTIFIER;
 
-IDENTIFIER: [A-Z]+[A-Z_0-9]+ ;
-BEGIN: '{' ;
-END: '}';
+IDENTIFIER: [A-Z][A-Z0-9]* ;
+//BEGIN: '{' ;
+//END: '}';
 ENDSYMBOL:';';
 GUARANTEE: 'guarantee';
 ASSUMPTION: 'assume';
@@ -90,11 +93,11 @@ ACTION_COMMUNICATE:   'encrypt'   | 'decrypt' | 'read'  |
 ASSOCIATION_HAS: 'has' ; // if it has a particular feature, then it can perform that action
 ACTION_HAS: 'performs' ;
 
-ACTION_COMPUTER: ;
+//ACTION_COMPUTER: ;
 ASSOCIATION_COMPUTER: 'is';
 
-ACTION_HARDWARE_COMPONENT: ;
-ACTION_SERVER: ;
+//ACTION_HARDWARE_COMPONENT: ;
+//ACTION_SERVER: ;
 
 //ACTION:       'encrypt'   | 'decrypt' | 'read'  |
 //              'send'      | 'receive' | 'forward'  ;

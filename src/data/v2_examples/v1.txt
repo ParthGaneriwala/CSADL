@@ -1,0 +1,8 @@
+assume iotDeviceA isConnectedTo serverA;
+assume iotDeviceA has internetFeature;
+assume iotDeviceA hasKeyOf serverA;
+assume serverA knowKeyOf iotDeviceA;
+assume iotDeviceA created data;
+assume iotDeviceA created message;
+guarantee iotDeviceA send data serverA;
+guarantee iotDeviceA send message serverA;

@@ -16,10 +16,10 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         //Process and input file
-        String dataFile = "/home/parthetic/CSADL/src/data/v1_examples/aaa.txt";
+        String dataFile = "/home/parthetic/CSADL/src/data/v2_examples/v3.txt";
         CSADLFileProcessor csadlFileProcessor = new CSADLFileProcessor();
         CSADBObject csadbObject = csadlFileProcessor.processCSADLFile(dataFile);
-
+        //System.out.println(csadbObject.getAssume(0));
         //Run the reasoner based on the CSADL object created from the data file
         Reasoner reasoner = new Reasoner(csadbObject);
         reasoner.run();

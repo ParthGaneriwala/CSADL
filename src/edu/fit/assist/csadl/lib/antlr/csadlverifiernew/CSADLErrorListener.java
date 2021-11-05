@@ -1,4 +1,4 @@
-package edu.fit.assist.csadl.lib.antlr.csadlverifier;
+package edu.fit.assist.csadl.lib.antlr.csadlverifiernew;
 
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.RecognitionException;
