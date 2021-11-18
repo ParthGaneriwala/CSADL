@@ -50,10 +50,10 @@ public class CSADLFileProcessor {
                         Statement statement =null;
                         switch(lineParts.length) {
                             case 3:
-                                statement = new Statement(statementType, lineParts[1], lineParts[2]);
+                                statement = new Statement(line, statementType, lineParts[1], lineParts[2]);
                                 break;
                             case 4:
-                                statement = new Statement(statementType, lineParts[1], lineParts[2], lineParts[3]);
+                                statement = new Statement(line, statementType, lineParts[1], lineParts[2], lineParts[3]);
                                 break;
                             default:
                                 System.err.println("ERROR: assume statement with size "+(lineParts.length) + " not supported!");
@@ -70,13 +70,13 @@ public class CSADLFileProcessor {
                         Statement statement = null;
                         switch(lineParts.length) {
                             case 3:
-                                statement = new Statement(statementType, lineParts[1], lineParts[2]);
+                                statement = new Statement(line, statementType, lineParts[1], lineParts[2]);
                                 break;
                             case 4:
-                                statement = new Statement(statementType, lineParts[1], lineParts[2], lineParts[3]);
+                                statement = new Statement(line, statementType, lineParts[1], lineParts[2], lineParts[3]);
                                 break;
                             case 5:
-                                statement = new Statement(statementType, lineParts[1], lineParts[2], lineParts[3], lineParts[4]);
+                                statement = new Statement(line, statementType, lineParts[1], lineParts[2], lineParts[3], lineParts[4]);
                                 break;
                             default:
                                 System.err.println("ERROR: guarantee statement with size "+(lineParts.length) + " not supported!");

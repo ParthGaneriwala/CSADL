@@ -1,0 +1,9 @@
+assume computerA isConnectedTo computerB;
+assume computerA created messageA;
+assume computerB knowKeyOf computerA;
+assume computerA hasKeyOf computerB;
+assume messageA hasSensitive content;
+guarantee computerA send messageA computerB;
+guarantee computerB forward messageA;
+guarantee computerB decrypt computerA;
+guarantee computerA encrypt computerB;

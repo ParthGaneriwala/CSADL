@@ -14,7 +14,7 @@ import java.util.Map;
  * Purpose: To store all CSADL action-association pairs
  */
 public class Library {
-    Map<String, String> library = new HashMap<>();
+    Map<String, String[]> library = new HashMap<>();
     Map<List<String>, String> library1 =new HashMap<>();
 
 
@@ -26,15 +26,16 @@ public class Library {
         library1.put(action, "isConnectedTo");
     }
     public Library(){
-        //OLD LIBRARY
-//         library.put("sendMsgTo", "hasConnectionWith");
-//         library.put("receiveMsgFrom", "hasConnectionWith");
-//         library.put("encryptMsgTo", "hasKeyOf");
-//         library.put("decryptMsgFrom", "knowKeyOf");
-//         library.put("forward", "hasCreated");
-        // The iotDevice/computer is connected to the iotDevice/computer/server
+        // guarantee a1 action a2
+        // guarantee a1 action a3 a2 Example: guarantee computerA send messsgeA ComputerB
+        library.put("isSecure", new String[]{"isDemInternal;a1;"});
+        //assume computerA isConnectedTo serverA;
+        library.put("send", new String[]{"isConnectedTo;a1;a2;", "created;a1;a3;"});
+        library.put("receive", new String[]{"isConnectedTo;a1;a2;", "created;a2;a3;"});
 
-        library.put("sendData", "isConnectedTo");
+        library.put("forward", new String[]{"isConnectedTo;a1;a2;", "hasSensitiveContent;a3;"});
+
+        /*library.put("sendData", "isConnectedTo");
         library.put("receiveData", "isConnectedTo");
 
         // The iotDevice/computer is connected to the iotDevice/computer/server
@@ -45,52 +46,7 @@ public class Library {
         library.put("decrypt", "knowKeyOf");
         library.put("forwardData" , "created");
         library.put("forwardMessage" , "created");
-        library.put("isSecure", "isDemInternal");
-//        library1.put("send","data","computer","isConnectedTo");
-
-
-
-//        // Hardware Components Mapping
-//        library.put("", "hasButton");
-//        library.put("recordImage", "hasCamera");
-//        library.put("recordAudio", "hasMicrophone");
-//        library.put("produceAudio", "hasSpeaker");
-//        library.put("provideWirelessConnectivity", "hasNetworkModule");
-//        library.put("", "hasMotionSensor");
-//        library.put("", "hasThermalSensor");
-//
-//        // Software Feature Mapping
-//        library.put("canEncryptData", "hasFeatureDataEncryption");
-//        library.put("canDecryptData", "hasFeatureDataDecryption");
-//        library.put("canEncryptEvent", "hasFeatureEventEncryption");
-//        library.put("canBalanceLoad", "hasFeatureSecurity");
-
-        // Use cases (hybrid Action-Association Mapping)
-
-//        // 1. Perform Motion Sensing
-//        library.put("", "hasMotionSensor");
-//        library.put("performMotionSensing", "hasFeatureMotionSensing");
-//
-//        // 2. Perform Thermal Image Recognition
-//        library.put("", "hasThermalSensor");
-//        library.put("peformThermalImageRecognition", "hasFeatureThermalSensing");
-//
-//        // 3. Does the doorbell perform streaming
-//        library.put("recordImage", "hasCamera");
-//        library.put("provideWirelessConnectivity", "hasNetworkModule");
-//
-//        // 4. Does the device provide Sound Recognition
-//        library.put("produceAudio", "hasSpeaker");
-//        library.put("recordAudio", "hasMicrophone");
-//        library.put("provideWirelessConnectivity", "hasNetworkModule");
-//
-//        // 5. Does the device send and receive secure data?
-//        library.put("canEncryptData", "hasFeatureDataEncryption");
-//        library.put("canDecryptData", "hasFeatureDataDecryption");
-//
-//        // 6. Is the connection between the server and device secure?
-//        library.put("canEncryptEvent", "hasFeatureEventEncryption");
-
+        library.put("isSecure", "isDemInternal");*/
 
     }
 
@@ -98,10 +54,10 @@ public class Library {
         return library1;
     }
 
-    public Map<String, String> getLibrary(){
+    public Map<String, String[]> getLibrary(){
         return library;
     }
-    public String get(String key){
+    public String[] get(String key){
         return library.get(key);
     }
 }
