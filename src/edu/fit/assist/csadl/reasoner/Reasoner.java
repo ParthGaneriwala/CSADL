@@ -80,6 +80,28 @@ public class Reasoner {
                             checkMsgSensitivity(guarantee, (i+1));
                         }
                     }
+                    // Check if the guaranteed action is "isSecure" then check if the server is secure
+                    else if(association.equalsIgnoreCase("isDemInternal")){
+                        boolean foundMatch = false;
+                        for(int k = 0; k < numAssumptions; k++) {
+                            Statement tempAssumption = csadlObject.getAssume(k);
+                            if(tempAssumption.getThingA().equalsIgnoreCase(guarantee.getThingA())){
+                                foundMatch = true;
+                                break;
+                            }
+                        }
+                        if(foundMatch){
+                            System.out.println(guarantee.getThingA() + " is Secure!");
+                        }else{
+                            System.out.println(guarantee.getThingA() + " is NOT Secure!");
+                        }
+                        break;
+
+
+
+
+
+                    }
 
                     //If thingA from the guarantee matches thing A from the assumption and thingB from the guarantee matches thingB from the assumption,
                     // output a satisfied message.

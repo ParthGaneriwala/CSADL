@@ -1,0 +1,3 @@
+assume computerA isConntectedTo computerB
+assume computerC isConntectedTo computerD
+guarantee computerC send messageA computerD

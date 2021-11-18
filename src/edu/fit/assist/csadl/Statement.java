@@ -23,6 +23,13 @@ public class Statement {
         this.thingA = thingA;
         this.thingB = thingB;
     }
+    public Statement(StatementType statementType, String thingA, String association){
+        this.statementType = statementType;
+        this.association = association;
+        this.thingA = thingA;
+        this.thingB = "";
+
+    }
     // thingType: data or message
     public Statement(StatementType statementType, String thingA, String association, String thingType, String thingB){
         this.statementType = statementType;

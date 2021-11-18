@@ -1,7 +1,11 @@
 package edu.fit.assist.csadl.lib;
 
+import javax.swing.*;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 
 /**
  * Author: fitzroi <fnembhard@fit.edu>
@@ -11,7 +15,16 @@ import java.util.Map;
  */
 public class Library {
     Map<String, String> library = new HashMap<>();
+    Map<List<String>, String> library1 =new HashMap<>();
 
+
+    public void Library1() {
+        List<String> action = new ArrayList<>();
+        action.add("send");
+        action.add("data");
+        action.add("computer");
+        library1.put(action, "isConnectedTo");
+    }
     public Library(){
         //OLD LIBRARY
 //         library.put("sendMsgTo", "hasConnectionWith");
@@ -20,6 +33,7 @@ public class Library {
 //         library.put("decryptMsgFrom", "knowKeyOf");
 //         library.put("forward", "hasCreated");
         // The iotDevice/computer is connected to the iotDevice/computer/server
+
         library.put("sendData", "isConnectedTo");
         library.put("receiveData", "isConnectedTo");
 
@@ -31,53 +45,57 @@ public class Library {
         library.put("decrypt", "knowKeyOf");
         library.put("forwardData" , "created");
         library.put("forwardMessage" , "created");
+        library.put("isSecure", "isDemInternal");
+//        library1.put("send","data","computer","isConnectedTo");
 
-        // Hardware Components Mapping
-        library.put("", "hasButton");
-        library.put("recordImage", "hasCamera");
-        library.put("recordAudio", "hasMicrophone");
-        library.put("produceAudio", "hasSpeaker");
-        library.put("provideWirelessConnectivity", "hasNetworkModule");
-        library.put("", "hasMotionSensor");
-        library.put("", "hasThermalSensor");
 
-        // Software Feature Mapping
-        library.put("canEncryptData", "hasFeatureDataEncryption");
-        library.put("canDecryptData", "hasFeatureDataDecryption");
-        library.put("canEncryptEvent", "hasFeatureEventEncryption");
-        library.put("canBalanceLoad", "hasFeatureSecurity");
+
+//        // Hardware Components Mapping
+//        library.put("", "hasButton");
+//        library.put("recordImage", "hasCamera");
+//        library.put("recordAudio", "hasMicrophone");
+//        library.put("produceAudio", "hasSpeaker");
+//        library.put("provideWirelessConnectivity", "hasNetworkModule");
+//        library.put("", "hasMotionSensor");
+//        library.put("", "hasThermalSensor");
+//
+//        // Software Feature Mapping
+//        library.put("canEncryptData", "hasFeatureDataEncryption");
+//        library.put("canDecryptData", "hasFeatureDataDecryption");
+//        library.put("canEncryptEvent", "hasFeatureEventEncryption");
+//        library.put("canBalanceLoad", "hasFeatureSecurity");
 
         // Use cases (hybrid Action-Association Mapping)
 
-        // 1. Perform Motion Sensing
-        library.put("", "hasMotionSensor");
-        library.put("performMotionSensing", "hasFeatureMotionSensing");
-
-        // 2. Perform Thermal Image Recognition
-        library.put("", "hasThermalSensor");
-        library.put("peformThermalImageRecognition", "hasFeatureThermalSensing");
-
-        // 3. Does the doorbell perform streaming
-        library.put("recordImage", "hasCamera");
-        library.put("provideWirelessConnectivity", "hasNetworkModule");
-
-        // 4. Does the device provide Sound Recognition
-        library.put("produceAudio", "hasSpeaker");
-        library.put("recordAudio", "hasMicrophone");
-        library.put("provideWirelessConnectivity", "hasNetworkModule");
-
-        // 5. Does the device send and receive secure data?
-        library.put("sendData", "isConnectedTo");
-        library.put("receiveData", "isConnectedTo");
-        library.put("canEncryptData", "hasFeatureDataEncryption");
-        library.put("canDecryptData", "hasFeatureDataDecryption");
-
-        // 6. Is the connection between the server and device secure?
-        library.put("sendData", "isConnectedTo");
-        library.put("receiveData", "isConnectedTo");
-        library.put("canEncryptEvent", "hasFeatureEventEncryption");
+//        // 1. Perform Motion Sensing
+//        library.put("", "hasMotionSensor");
+//        library.put("performMotionSensing", "hasFeatureMotionSensing");
+//
+//        // 2. Perform Thermal Image Recognition
+//        library.put("", "hasThermalSensor");
+//        library.put("peformThermalImageRecognition", "hasFeatureThermalSensing");
+//
+//        // 3. Does the doorbell perform streaming
+//        library.put("recordImage", "hasCamera");
+//        library.put("provideWirelessConnectivity", "hasNetworkModule");
+//
+//        // 4. Does the device provide Sound Recognition
+//        library.put("produceAudio", "hasSpeaker");
+//        library.put("recordAudio", "hasMicrophone");
+//        library.put("provideWirelessConnectivity", "hasNetworkModule");
+//
+//        // 5. Does the device send and receive secure data?
+//        library.put("canEncryptData", "hasFeatureDataEncryption");
+//        library.put("canDecryptData", "hasFeatureDataDecryption");
+//
+//        // 6. Is the connection between the server and device secure?
+//        library.put("canEncryptEvent", "hasFeatureEventEncryption");
 
 
+    }
+
+    public Map<List<String>, String> getLibrary1() {
+        return library1;
     }
 
     public Map<String, String> getLibrary(){

@@ -43,7 +43,7 @@ public class GrammarVerifier {
 //        SecurityLexer securityLexer = new SecurityLexer(CharStreams.fromString(csadlData));
 
         try {
-            File csadlFile = new File("./src/data/v2_examples/v3.txt");
+            File csadlFile = new File("./src/data/v2_examples/v5.txt");
             FileInputStream is = new FileInputStream(csadlFile);
             SecurityLexer securityLexer = new SecurityLexer(CharStreams.fromStream(is));
 

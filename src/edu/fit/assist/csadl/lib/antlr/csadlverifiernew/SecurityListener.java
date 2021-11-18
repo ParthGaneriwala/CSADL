@@ -1,6 +1,6 @@
 // Generated from csadlverifiernew/Security.g4 by ANTLR 4.9.2
 
-package edu.fit.assist.csadl.lib.antlr.csadlverifiernew;
+    package edu.fit.assist.csadl.lib.antlr.csadlverifiernew;
 
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -90,6 +90,16 @@ public interface SecurityListener extends ParseTreeListener {
 	 */
 	void exitAssumption6(SecurityParser.Assumption6Context ctx);
 	/**
+	 * Enter a parse tree produced by {@link SecurityParser#assumption7}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssumption7(SecurityParser.Assumption7Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link SecurityParser#assumption7}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssumption7(SecurityParser.Assumption7Context ctx);
+	/**
 	 * Enter a parse tree produced by {@link SecurityParser#guarantee1}.
 	 * @param ctx the parse tree
 	 */
@@ -129,4 +139,24 @@ public interface SecurityListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitGuarantee4(SecurityParser.Guarantee4Context ctx);
+	/**
+	 * Enter a parse tree produced by {@link SecurityParser#guarantee5}.
+	 * @param ctx the parse tree
+	 */
+	void enterGuarantee5(SecurityParser.Guarantee5Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link SecurityParser#guarantee5}.
+	 * @param ctx the parse tree
+	 */
+	void exitGuarantee5(SecurityParser.Guarantee5Context ctx);
+	/**
+	 * Enter a parse tree produced by {@link SecurityParser#guarantee6}.
+	 * @param ctx the parse tree
+	 */
+	void enterGuarantee6(SecurityParser.Guarantee6Context ctx);
+	/**
+	 * Exit a parse tree produced by {@link SecurityParser#guarantee6}.
+	 * @param ctx the parse tree
+	 */
+	void exitGuarantee6(SecurityParser.Guarantee6Context ctx);
 }
