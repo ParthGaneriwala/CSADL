@@ -78,7 +78,22 @@ public class Reasoner {
                     }else{
                         reasonTrue += "\n" + thingC + " doesn't have a sensitive context.";
                     }
+                }else if(association.equalsIgnoreCase("isSecurelyConnectedTo")){
+                    if(!assumeMap.exists(propertyToCheck)){
+                        success = false;
+                        reasonFalse += "\n" + thingA + " is Not Securely Connected To " + thingB + ".";
+                    }else{
+                        reasonTrue += "\n" + thingA + " is Securely Connected To " + thingB + ".";
+                    }
+                }else if(association.equalsIgnoreCase("hasFeatureEventEncryption")){
+                    if(!assumeMap.exists(propertyToCheck)){
+                        success = false;
+                        reasonFalse += "\n" + thingA + " does NOT have feature event encryption with " + thingB + ".";
+                    }else{
+                        reasonTrue += "\n" + thingA + "does have feature event encryption with " + thingB + ".";
+                    }
                 }
+
             }
             System.out.print(printBorder());
             if(success){

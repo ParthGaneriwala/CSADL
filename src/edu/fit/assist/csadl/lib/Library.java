@@ -31,10 +31,13 @@ public class Library {
         library.put("isSecure", new String[]{"isDemInternal;a1;"});
         //assume computerA isConnectedTo serverA;
         library.put("send", new String[]{"isConnectedTo;a1;a2;", "created;a1;a3;"});
+        library.put("securelySend", new String[]{"isSecurelyConnectedTo;a1;a2;", "created;a1;a3;"});
         library.put("receive", new String[]{"isConnectedTo;a1;a2;", "created;a2;a3;"});
-
+        library.put("securelyReceive", new String[]{"isSecurelyConnectedTo;a1;a2;", "created;a2;a3;"});
         library.put("forward", new String[]{"isConnectedTo;a1;a2;", "hasSensitiveContent;a3;"});
-
+        library.put("isSecurelyConnectedTo", new String[]{"isSecurelyConnectedTo;a1;a2;"});
+        library.put("encrypt", new String[]{"isConnectedTo;a1;a2;", "hasFeatureEventEncryption;a1;a2;"});
+        library.put("decrypt", new String[]{"isConnectedTo;a1;a2;", "hasFeatureEventEncryption;a1;a2;"});
         /*library.put("sendData", "isConnectedTo");
         library.put("receiveData", "isConnectedTo");
 

@@ -1,0 +1,10 @@
+assume computerA isConnectedTo serverA;
+assume serverA isConnectedTo serverB;
+assume computerB isConnectedTo serverB;
+assume computerA hasFeatureEventEncryption serverA;
+assume serverA hasFeatureEventEncryption serverB;
+assume computerB hasFeatureEventEncryption serverB;
+assume computerA created messageA;
+guarantee computerA send messageA computerB;
+guarantee computerA securelySend messageA computerB;
+guarantee computerA isSecurelyConnectedTo computerB;
