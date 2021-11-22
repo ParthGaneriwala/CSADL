@@ -1,11 +1,13 @@
 grammar Security;
+
 @header
 {
-package edu.fit.assist.csadl.lib.antlr.csadlverifiernew;
+    package edu.fit.assist.csadl.lib.antlr.csadlverifiernew;
 }
+
 //csadl: BEGIN statement+ END ;
 csadl : statement+ ;
-statement: (assumption1  | assumption2 | assumption3 | assumption4 | assumption5 |assumption6| guarantee1 | guarantee2  |guarantee3 |guarantee4) ENDSYMBOL ;
+statement: (assumption1  | assumption2 | assumption3 | assumption4 | assumption5 |assumption6|assumption7| guarantee1 | guarantee2  |guarantee3 |guarantee4|guarantee5|guarantee6) ENDSYMBOL ;
 
 //assume iotDeviceA isConnectedTo serverA;
 assumption1: ASSUMPTION ASSET_IOT_DEVICE ASSOCIATION_CONNECT ASSET_SERVER ;
@@ -35,6 +37,8 @@ assumption5: ASSUMPTION THING SENSITIVITY CONTENT;
 //assume computerA hasCreated messageA;
 //assume iotDeviceA hasCreated messageB;
 assumption6: ASSUMPTION (ASSET_COMPUTER | ASSET_IOT_DEVICE) ASSOCIATION_CREATE THING;
+
+assumption7: ASSUMPTION ASSET_SERVER SERVER_TYPE;
 
 //guarantee iotDeviceA send data serverA;
 //guarantee iotDeviceA send message serverA;
@@ -67,6 +71,10 @@ guarantee4: GUARANTEE (ASSET_COMPUTER | ASSET_IOT_DEVICE | ASSET_SERVER) ACTION_
 // assumption2: ASSUMPTION MESSAGE SENSITIVITY CONTENT;
 // guarantee:   GUARANTEE ASSET  ACTION  (ASSET|MESSAGE) ;
 
+guarantee5: GUARANTEE ASSET_SERVER ACTION_COMMUNICATE THING;
+
+guarantee6: GUARANTEE ASSET_SERVER SECURITY;
+
 ASSET_COMPUTER: 'computer' IDENTIFIER ;
 ASSET_IOT_DEVICE: 'iotDevice' IDENTIFIER ;
 ASSET_SERVER: 'server' IDENTIFIER ;
@@ -94,10 +102,12 @@ ASSOCIATION_HAS: 'has' ; // if it has a particular feature, then it can perform 
 ACTION_HAS: 'performs' ;
 
 //ACTION_COMPUTER: ;
-ASSOCIATION_COMPUTER: 'is';
+//ASSOCIATION_COMPUTER: 'is';
+//ASSOCIATION_SERVER: 'is';
+SERVER_TYPE: 'isFirstParty' | 'isThirdParty' | 'isDemExternal' | 'isDemInternal' ;
 
 //ACTION_HARDWARE_COMPONENT: ;
-//ACTION_SERVER: ;
+SECURITY: 'isSecure';
 
 //ACTION:       'encrypt'   | 'decrypt' | 'read'  |
 //              'send'      | 'receive' | 'forward'  ;

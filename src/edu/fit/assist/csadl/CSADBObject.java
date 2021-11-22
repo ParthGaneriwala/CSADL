@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class CSADBObject {
     private int rows;
-    private List<Statement> assume;
+    public List<Statement> assume;
     private List<Statement> guarantee;
 
     public CSADBObject(){

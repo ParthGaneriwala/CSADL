@@ -3,7 +3,5 @@ assume iotdeviceB isConnectedTo computerA;
 assume iotdeviceB isConnectedTo serverC;
 assume computerA isConnectedTo serverC;
 assume serverC isConnectedTo computerD;
-assume dataA hasSensitive content; h h hh h h h
-assume computerA created dataA;
 guarantee computerA send dataA iotdeviceB;
 guarantee iotdeviceB forward dataA serverC;

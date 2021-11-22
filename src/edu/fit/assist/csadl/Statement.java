@@ -12,19 +12,30 @@ public class Statement {
     private StatementType statementType;
     private String thingA;
     private String association;
-    private String thingType;
-    private String thingIdentifier;
+    private String thingType="";
+    private String thingIdentifier="";
     private String thingB;
     private String[] possibleThingTypes = {"data", "message"};
+    private String text;
 
-    public Statement(StatementType statementType, String thingA, String association, String thingB){
+    public Statement(String text, StatementType statementType, String thingA, String association, String thingB){
+        this.text = text;
         this.statementType = statementType;
         this.association = association;
         this.thingA = thingA;
         this.thingB = thingB;
     }
+    public Statement(String text,StatementType statementType, String thingA, String association){
+        this.text = text;
+        this.statementType = statementType;
+        this.association = association;
+        this.thingA = thingA;
+        this.thingB = "";
+
+    }
     // thingType: data or message
-    public Statement(StatementType statementType, String thingA, String association, String thingType, String thingB){
+    public Statement(String text, StatementType statementType, String thingA, String association, String thingType, String thingB){
+        this.text = text;
         this.statementType = statementType;
         this.association = association;
 
@@ -45,13 +56,14 @@ public class Statement {
 
     public String getThingA(){return thingA;}
     public String getThingB(){return thingB;}
+    public String getThingC(){return thingType+thingIdentifier;}
     public StatementType getRuleType(){return statementType;}
     public String getAssociation(){return association;} // An assumption has an association
     public String getThingType(){return thingType;};
     public String getThingIdentifier(){return  thingIdentifier;}
     public String getAction(){return association;} // A guarantee has an action
     public String getCapitalizedThingType(){
-        if(thingType != null){
+        if(thingType.length() > 0){
             return Character.toUpperCase(thingType.charAt(0)) +thingType.substring(1);
         }
         return "";
@@ -59,6 +71,6 @@ public class Statement {
     public String getAssociationAndType(){return association + getCapitalizedThingType();} // add thing type to association Example: send + data = sendData (capitalize the first letter of thing type)
 
     public String toString(){
-        return getThingA() + " " + association + getCapitalizedThingType() + " " + getThingB();
+        return text;
     }
 }

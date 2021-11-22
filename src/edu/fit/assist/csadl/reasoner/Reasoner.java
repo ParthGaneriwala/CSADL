@@ -23,80 +23,110 @@ public class Reasoner {
     public void run(){
         int numGuarantees = csadlObject.getGuaranteeCount();
         int numAssumptions = csadlObject.getAssumeCount();
-        Library library = new Library(); // initialize a new library based on a hashmap of key-value action-association pairs
+        Library library = new Library(); // Initialize a new library based on a hashmap of key-value action-procedure pairs
+
+        AssumeMap assumeMap = new AssumeMap(csadlObject.assume);
+        for(String s:assumeMap.map.keySet()){
+            //System.out.println(s);
+        }
 
         // Go through a list containing guarantees read from the input file
         for(int i = 0 ; i < numGuarantees ; i++) {
             Statement guarantee = csadlObject.getGuarantee(i);
+            // Get action from guarantee
+            String action = guarantee.getAction();
+            String thingA = guarantee.getThingA();
+            String thingB = guarantee.getThingB();
+            String thingC = guarantee.getThingC();
+            // Get procedure from the library using the action
+            String[] procedure = library.get(action);
+            boolean success = true;
+            String reasonTrue = "";
+            String reasonFalse = "";
 
-            // Look up the association for a given action of a guarantee.
-            // for example, the action may be "sendMsgTo" and the association may be "hasConnectionWith"
-            //System.out.println(guarantee.getAssociationAndType());
-            //System.out.println(guarantee.getCapitalizedThingType());
-            String association = library.get(guarantee.getAssociationAndType());
-            //System.out.println(association);
-            if(association == null){
-                System.err.println("ERROR Action \'"+guarantee.getAssociationAndType()+"\' has no association.");
-                System.exit(-1);
-            }
-            // Go through the list of Assumptions
-            for(int j = 0; j < numAssumptions; j++) {
-                Statement assumption = csadlObject.getAssume(j);
+            // Do the procedure
+            for(String step:procedure){
+                String[] parts = step.split(";");
+                String association = parts[0];
+                String propertyToCheck = step.replaceAll(";a1",";"+thingA).replaceAll(";a2",";"+thingB).replaceAll(";a3",";"+thingC);
 
-
-                //Example: if the library value "hasConnectionWith" maps to an assumption "hasConnectionWith"
-                //System.out.println(assumption.getAssociation());
-                if (association.equalsIgnoreCase(assumption.getAssociation())) {
-
-                    //check if the guaranteed action is "sendMsgTo" or the guaranteed action is "receiveMsgFrom"
-
-                    if (guarantee.getAction().equalsIgnoreCase("send") || guarantee.getAction().equalsIgnoreCase("receive")) {
-                        // Then check if thingA from the guarantee matches thingA from the association and thingB from the guaranteed matches thingB from the assumption
-                        // OR if thingA from the guarantee matches thingB from the assumption and thingB from teh guarantee matches thingA from the assumption
-                        if ((guarantee.getThingA().equalsIgnoreCase(assumption.getThingA()) && guarantee.getThingB().equalsIgnoreCase(assumption.getThingB())) ||
-                                (guarantee.getThingA().equalsIgnoreCase(assumption.getThingB()) && guarantee.getThingB().equalsIgnoreCase(assumption.getThingA()))
-                        ) {
-                            outputSatisfiedGuaranteeMsg(guarantee, (i+1), assumption, (j+1));
-                            break;
-                        } else {
-                            outputMissingAssociationMsg(guarantee, association); // output a missing
-                        }
+                if(association.equalsIgnoreCase("isDemInternal")){
+                    if(!assumeMap.exists(propertyToCheck)){
+                        success = false;
+                        reasonFalse += "\n" + thingA + " is Not Demographically Internal.";
+                    }else{
+                        reasonTrue += "\n" + thingA + " is Demographically Internal.";
                     }
-
-                    //Check if the guaranteed action is "forward" then check if thingA maps to thingB
-                    else if(guarantee.getAction().equalsIgnoreCase("forward")){
-
-                        // If thingA in the guarantee maps to thingA in the assumption and thingB in the guarantee maps to thingB in the assumptiom
-                        // Output a satisfied message
-                        if(guarantee.getThingA().equalsIgnoreCase(assumption.getThingA()) && guarantee.getThingB().equalsIgnoreCase(assumption.getThingB())){
-                            outputSatisfiedGuaranteeMsg(guarantee, (i+1), assumption, (j+1));
-
-                            break;
-                        }
-                        // If thingA in the guarantee does not match thingA in the assumption, but thingB in the guarantee match thingB in the assumption,
-                        // check the message sensitivity: for example, if is is sensitive, thing cannot forward it,
-                        // but if it is normal, he can forward it
-                        else if(!(guarantee.getThingA().equalsIgnoreCase(assumption.getThingA()) && (guarantee.getThingB().equalsIgnoreCase(assumption.getThingB())))){
-                            checkMsgSensitivity(guarantee, (i+1));
-                        }
+                }else if(association.equalsIgnoreCase("isConnectedTo")){
+                    if(!assumeMap.exists(propertyToCheck)){
+                        success = false;
+                        reasonFalse += "\n" + thingA + " is Not Connected To " + thingB + ".";
+                    }else{
+                        reasonTrue += "\n" + thingA + " is Connected To " + thingB + ".";
                     }
-
-                    //If thingA from the guarantee matches thing A from the assumption and thingB from the guarantee matches thingB from the assumption,
-                    // output a satisfied message.
-                    // Else, output a missing association message
-
-                    else if(guarantee.getThingA().equalsIgnoreCase(assumption.getThingA()) && guarantee.getThingB().equalsIgnoreCase(assumption.getThingB())){
-                        outputSatisfiedGuaranteeMsg(guarantee, (i+1), assumption, (j+1));
-                        break;
+                }else if(association.equalsIgnoreCase("created")){
+                    if(!assumeMap.exists(propertyToCheck)){
+                        success = false;
+                        reasonFalse += "\n" + propertyToCheck.split(";")[1]  + " hasn't created " + thingC + "." ;
+                    }else{
+                        reasonTrue += "\n" + propertyToCheck.split(";")[1] + " has created " + thingC + "." ;
                     }
-                    else {
-                        outputMissingAssociationMsg(guarantee, association);
+                }else if(association.equalsIgnoreCase("hasSensitiveContent")){
+                    if(assumeMap.exists(propertyToCheck)){
+                        success = false;
+                        reasonFalse += "\n" + thingC + " has a sensitive context.";
+                    }else{
+                        reasonTrue += "\n" + thingC + " doesn't have a sensitive context.";
+                    }
+                }else if(association.equalsIgnoreCase("isSecurelyConnectedTo")){
+                    if(!assumeMap.exists(propertyToCheck)){
+                        success = false;
+                        reasonFalse += "\n" + thingA + " is Not Securely Connected To " + thingB + ".";
+                    }else{
+                        reasonTrue += "\n" + thingA + " is Securely Connected To " + thingB + ".";
+                    }
+                }else if(association.equalsIgnoreCase("hasFeatureEventEncryption")){
+                    if(!assumeMap.exists(propertyToCheck)){
+                        success = false;
+                        reasonFalse += "\n" + thingA + " does NOT have feature event encryption with " + thingB + ".";
+                    }else{
+                        reasonTrue += "\n" + thingA + "does have feature event encryption with " + thingB + ".";
                     }
                 }
+
             }
+            System.out.print(printBorder());
+            if(success){
+                System.out.println(formatReason("\'"+guarantee+"\' is True.\nReason(s):")+formatReason(reasonTrue));
+            }else{
+                System.out.println(formatReason("\'"+guarantee+"\' is False.\nReason(s):")+formatReason(reasonFalse));
+            }
+            System.out.println(printBorder());
         }
     }
+    private String printBorder(){
+        String output = "";
+        for(int i=0;i<100;i++){
+            output += "-";
+        }
+        return "+" + output + "+";
+    }
+    private String formatReason(String reason){
+        String output = "";
+        for(String s: reason.split("\n")){
+            s = s.replaceAll("\n", "");
+            if(s.length() == 0)
+                continue;
 
+            for(int i=s.length();i<100;i++){
+                s += " ";
+            }
+            s = "\n|" +s+ "|";
+            output += s;
+        }
+        return output;
+
+    }
     /**
      * Checks the sensitivity of a message and outputs messages accordingly
      * @param guarantee
