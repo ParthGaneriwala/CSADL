@@ -1,0 +1,7 @@
+assume computerA isConnectedTo iotdeviceB;
+assume iotdeviceB isConnectedTo computerA;
+assume iotdeviceB isConnectedTo serverC;
+assume computerA isConnectedTo serverC;
+assume serverC isConnectedTo computerD;
+guarantee computerA send dataA iotdeviceB;
+guarantee iotdeviceB forward dataA serverC;

@@ -1,11 +1,10 @@
 package main;
 
-import edu.fit.assist.csadl.lib.antlr.csadlverifier.CSADLErrorListener;
-import edu.fit.assist.csadl.lib.antlr.csadlverifier.SecurityBaseListener;
-import edu.fit.assist.csadl.lib.antlr.csadlverifier.SecurityLexer;
-import edu.fit.assist.csadl.lib.antlr.csadlverifier.SecurityParser;
+import edu.fit.assist.csadl.lib.antlr.csadlverifiernew.CSADLErrorListener;
+import edu.fit.assist.csadl.lib.antlr.csadlverifiernew.SecurityBaseListener;
+import edu.fit.assist.csadl.lib.antlr.csadlverifiernew.SecurityLexer;
+import edu.fit.assist.csadl.lib.antlr.csadlverifiernew.SecurityParser;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
@@ -44,7 +43,7 @@ public class GrammarVerifier {
 //        SecurityLexer securityLexer = new SecurityLexer(CharStreams.fromString(csadlData));
 
         try {
-            File csadlFile = new File("./src/data/csadl_example.txt");
+            File csadlFile = new File("./src/data/v2_examples/v5.txt");
             FileInputStream is = new FileInputStream(csadlFile);
             SecurityLexer securityLexer = new SecurityLexer(CharStreams.fromStream(is));
 

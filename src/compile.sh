@@ -1,1 +1,0 @@
-javac -classpath .:/home/parthetic/Downloads/v3/src/edu/fit/assist/csadl/lib/antlr/antlr-4.9.2-complete.jar:/home/parthetic/Downloads/v3/src/edu/fit/assist/csadl/lib:/home/parthetic/Downloads/v3/src/edu/fit/assist/csadl  ./main/*.java
