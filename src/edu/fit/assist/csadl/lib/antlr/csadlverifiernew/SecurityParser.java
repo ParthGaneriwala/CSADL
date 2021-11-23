@@ -22,8 +22,9 @@ public class SecurityParser extends Parser {
 		ASSET_COMPUTER=1, ASSET_IOT_DEVICE=2, ASSET_SERVER=3, ASSET_SOFTWARE_FEATURE=4, 
 		ASSET_HARDWARE_COMPONENT=5, SOFTWARE_FEATURE=6, THING=7, IDENTIFIER=8, 
 		ENDSYMBOL=9, GUARANTEE=10, ASSUMPTION=11, ASSOCIATION_CONNECT=12, ACTION_COMMUNICATE=13, 
-		ASSOCIATION_HAS=14, ACTION_HAS=15, SERVER_TYPE=16, SECURITY=17, ASSOCIATION_KEY=18, 
-		ASSOCIATION_CREATE=19, SENSITIVITY=20, CONTENT=21, WS=22;
+		SECURE_ACTION_CONNECT=14, SECURE_ACTION_COMMUNICATE=15, ASSOCIATION_HAS=16, 
+		ACTION_HAS=17, SERVER_TYPE=18, SECURITY=19, ENCRYPTION=20, ASSOCIATION_KEY=21, 
+		ASSOCIATION_CREATE=22, SENSITIVITY=23, CONTENT=24, WS=25;
 	public static final int
 		RULE_csadl = 0, RULE_statement = 1, RULE_assumption1 = 2, RULE_assumption2 = 3, 
 		RULE_assumption3 = 4, RULE_assumption4 = 5, RULE_assumption5 = 6, RULE_assumption6 = 7, 
@@ -41,7 +42,8 @@ public class SecurityParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, "';'", "'guarantee'", 
-			"'assume'", "'isConnectedTo'", null, "'has'", "'performs'", null, "'isSecure'", 
+			"'assume'", "'isConnectedTo'", null, "'isSecurelyConnectedTo'", null, 
+			"'has'", "'performs'", null, "'isSecure'", "'hasFeatureEventEncryption'", 
 			null, "'created'", null, "'content'"
 		};
 	}
@@ -51,7 +53,8 @@ public class SecurityParser extends Parser {
 			null, "ASSET_COMPUTER", "ASSET_IOT_DEVICE", "ASSET_SERVER", "ASSET_SOFTWARE_FEATURE", 
 			"ASSET_HARDWARE_COMPONENT", "SOFTWARE_FEATURE", "THING", "IDENTIFIER", 
 			"ENDSYMBOL", "GUARANTEE", "ASSUMPTION", "ASSOCIATION_CONNECT", "ACTION_COMMUNICATE", 
-			"ASSOCIATION_HAS", "ACTION_HAS", "SERVER_TYPE", "SECURITY", "ASSOCIATION_KEY", 
+			"SECURE_ACTION_CONNECT", "SECURE_ACTION_COMMUNICATE", "ASSOCIATION_HAS", 
+			"ACTION_HAS", "SERVER_TYPE", "SECURITY", "ENCRYPTION", "ASSOCIATION_KEY", 
 			"ASSOCIATION_CREATE", "SENSITIVITY", "CONTENT", "WS"
 		};
 	}
@@ -367,12 +370,16 @@ public class SecurityParser extends Parser {
 
 	public static class Assumption2Context extends ParserRuleContext {
 		public TerminalNode ASSUMPTION() { return getToken(SecurityParser.ASSUMPTION, 0); }
+		public List<TerminalNode> ASSET_SERVER() { return getTokens(SecurityParser.ASSET_SERVER); }
+		public TerminalNode ASSET_SERVER(int i) {
+			return getToken(SecurityParser.ASSET_SERVER, i);
+		}
 		public List<TerminalNode> ASSET_COMPUTER() { return getTokens(SecurityParser.ASSET_COMPUTER); }
 		public TerminalNode ASSET_COMPUTER(int i) {
 			return getToken(SecurityParser.ASSET_COMPUTER, i);
 		}
 		public TerminalNode ASSOCIATION_CONNECT() { return getToken(SecurityParser.ASSOCIATION_CONNECT, 0); }
-		public TerminalNode ASSET_SERVER() { return getToken(SecurityParser.ASSET_SERVER, 0); }
+		public TerminalNode SECURE_ACTION_CONNECT() { return getToken(SecurityParser.SECURE_ACTION_CONNECT, 0); }
 		public TerminalNode ASSET_IOT_DEVICE() { return getToken(SecurityParser.ASSET_IOT_DEVICE, 0); }
 		public Assumption2Context(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -398,9 +405,25 @@ public class SecurityParser extends Parser {
 			setState(57);
 			match(ASSUMPTION);
 			setState(58);
-			match(ASSET_COMPUTER);
+			_la = _input.LA(1);
+			if ( !(_la==ASSET_COMPUTER || _la==ASSET_SERVER) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
 			setState(59);
-			match(ASSOCIATION_CONNECT);
+			_la = _input.LA(1);
+			if ( !(_la==ASSOCIATION_CONNECT || _la==SECURE_ACTION_CONNECT) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
 			setState(60);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ASSET_COMPUTER) | (1L << ASSET_IOT_DEVICE) | (1L << ASSET_SERVER))) != 0)) ) {
@@ -482,7 +505,7 @@ public class SecurityParser extends Parser {
 
 	public static class Assumption4Context extends ParserRuleContext {
 		public TerminalNode ASSUMPTION() { return getToken(SecurityParser.ASSUMPTION, 0); }
-		public TerminalNode ASSOCIATION_KEY() { return getToken(SecurityParser.ASSOCIATION_KEY, 0); }
+		public TerminalNode ENCRYPTION() { return getToken(SecurityParser.ENCRYPTION, 0); }
 		public List<TerminalNode> ASSET_COMPUTER() { return getTokens(SecurityParser.ASSET_COMPUTER); }
 		public TerminalNode ASSET_COMPUTER(int i) {
 			return getToken(SecurityParser.ASSET_COMPUTER, i);
@@ -529,7 +552,7 @@ public class SecurityParser extends Parser {
 				consume();
 			}
 			setState(69);
-			match(ASSOCIATION_KEY);
+			match(ENCRYPTION);
 			setState(70);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ASSET_COMPUTER) | (1L << ASSET_IOT_DEVICE) | (1L << ASSET_SERVER))) != 0)) ) {
@@ -749,14 +772,9 @@ public class SecurityParser extends Parser {
 
 	public static class Guarantee2Context extends ParserRuleContext {
 		public TerminalNode GUARANTEE() { return getToken(SecurityParser.GUARANTEE, 0); }
-		public List<TerminalNode> ASSET_COMPUTER() { return getTokens(SecurityParser.ASSET_COMPUTER); }
-		public TerminalNode ASSET_COMPUTER(int i) {
-			return getToken(SecurityParser.ASSET_COMPUTER, i);
-		}
-		public TerminalNode ACTION_COMMUNICATE() { return getToken(SecurityParser.ACTION_COMMUNICATE, 0); }
-		public TerminalNode THING() { return getToken(SecurityParser.THING, 0); }
-		public TerminalNode ASSET_SERVER() { return getToken(SecurityParser.ASSET_SERVER, 0); }
 		public TerminalNode ASSET_IOT_DEVICE() { return getToken(SecurityParser.ASSET_IOT_DEVICE, 0); }
+		public TerminalNode ACTION_HAS() { return getToken(SecurityParser.ACTION_HAS, 0); }
+		public TerminalNode SOFTWARE_FEATURE() { return getToken(SecurityParser.SOFTWARE_FEATURE, 0); }
 		public Guarantee2Context(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -774,19 +792,81 @@ public class SecurityParser extends Parser {
 	public final Guarantee2Context guarantee2() throws RecognitionException {
 		Guarantee2Context _localctx = new Guarantee2Context(_ctx, getState());
 		enterRule(_localctx, 20, RULE_guarantee2);
-		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(92);
 			match(GUARANTEE);
 			setState(93);
-			match(ASSET_COMPUTER);
+			match(ASSET_IOT_DEVICE);
 			setState(94);
-			match(ACTION_COMMUNICATE);
+			match(ACTION_HAS);
 			setState(95);
-			match(THING);
-			setState(96);
+			match(SOFTWARE_FEATURE);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Guarantee3Context extends ParserRuleContext {
+		public TerminalNode GUARANTEE() { return getToken(SecurityParser.GUARANTEE, 0); }
+		public TerminalNode SECURE_ACTION_CONNECT() { return getToken(SecurityParser.SECURE_ACTION_CONNECT, 0); }
+		public List<TerminalNode> ASSET_COMPUTER() { return getTokens(SecurityParser.ASSET_COMPUTER); }
+		public TerminalNode ASSET_COMPUTER(int i) {
+			return getToken(SecurityParser.ASSET_COMPUTER, i);
+		}
+		public List<TerminalNode> ASSET_IOT_DEVICE() { return getTokens(SecurityParser.ASSET_IOT_DEVICE); }
+		public TerminalNode ASSET_IOT_DEVICE(int i) {
+			return getToken(SecurityParser.ASSET_IOT_DEVICE, i);
+		}
+		public List<TerminalNode> ASSET_SERVER() { return getTokens(SecurityParser.ASSET_SERVER); }
+		public TerminalNode ASSET_SERVER(int i) {
+			return getToken(SecurityParser.ASSET_SERVER, i);
+		}
+		public Guarantee3Context(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_guarantee3; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SecurityListener ) ((SecurityListener)listener).enterGuarantee3(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SecurityListener ) ((SecurityListener)listener).exitGuarantee3(this);
+		}
+	}
+
+	public final Guarantee3Context guarantee3() throws RecognitionException {
+		Guarantee3Context _localctx = new Guarantee3Context(_ctx, getState());
+		enterRule(_localctx, 22, RULE_guarantee3);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(97);
+			match(GUARANTEE);
+			setState(98);
+			_la = _input.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ASSET_COMPUTER) | (1L << ASSET_IOT_DEVICE) | (1L << ASSET_SERVER))) != 0)) ) {
+			_errHandler.recoverInline(this);
+			}
+			else {
+				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+				_errHandler.reportMatch(this);
+				consume();
+			}
+			setState(99);
+			match(SECURE_ACTION_CONNECT);
+			setState(100);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ASSET_COMPUTER) | (1L << ASSET_IOT_DEVICE) | (1L << ASSET_SERVER))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -809,55 +889,9 @@ public class SecurityParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Guarantee3Context extends ParserRuleContext {
-		public TerminalNode GUARANTEE() { return getToken(SecurityParser.GUARANTEE, 0); }
-		public TerminalNode ASSET_IOT_DEVICE() { return getToken(SecurityParser.ASSET_IOT_DEVICE, 0); }
-		public TerminalNode ACTION_HAS() { return getToken(SecurityParser.ACTION_HAS, 0); }
-		public TerminalNode SOFTWARE_FEATURE() { return getToken(SecurityParser.SOFTWARE_FEATURE, 0); }
-		public Guarantee3Context(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_guarantee3; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SecurityListener ) ((SecurityListener)listener).enterGuarantee3(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SecurityListener ) ((SecurityListener)listener).exitGuarantee3(this);
-		}
-	}
-
-	public final Guarantee3Context guarantee3() throws RecognitionException {
-		Guarantee3Context _localctx = new Guarantee3Context(_ctx, getState());
-		enterRule(_localctx, 22, RULE_guarantee3);
-		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(98);
-			match(GUARANTEE);
-			setState(99);
-			match(ASSET_IOT_DEVICE);
-			setState(100);
-			match(ACTION_HAS);
-			setState(101);
-			match(SOFTWARE_FEATURE);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
 	public static class Guarantee4Context extends ParserRuleContext {
 		public TerminalNode GUARANTEE() { return getToken(SecurityParser.GUARANTEE, 0); }
-		public TerminalNode ACTION_COMMUNICATE() { return getToken(SecurityParser.ACTION_COMMUNICATE, 0); }
+		public TerminalNode THING() { return getToken(SecurityParser.THING, 0); }
 		public List<TerminalNode> ASSET_COMPUTER() { return getTokens(SecurityParser.ASSET_COMPUTER); }
 		public TerminalNode ASSET_COMPUTER(int i) {
 			return getToken(SecurityParser.ASSET_COMPUTER, i);
@@ -866,8 +900,12 @@ public class SecurityParser extends Parser {
 		public TerminalNode ASSET_IOT_DEVICE(int i) {
 			return getToken(SecurityParser.ASSET_IOT_DEVICE, i);
 		}
-		public TerminalNode ASSET_SERVER() { return getToken(SecurityParser.ASSET_SERVER, 0); }
-		public TerminalNode THING() { return getToken(SecurityParser.THING, 0); }
+		public List<TerminalNode> ASSET_SERVER() { return getTokens(SecurityParser.ASSET_SERVER); }
+		public TerminalNode ASSET_SERVER(int i) {
+			return getToken(SecurityParser.ASSET_SERVER, i);
+		}
+		public TerminalNode ACTION_COMMUNICATE() { return getToken(SecurityParser.ACTION_COMMUNICATE, 0); }
+		public TerminalNode SECURE_ACTION_COMMUNICATE() { return getToken(SecurityParser.SECURE_ACTION_COMMUNICATE, 0); }
 		public Guarantee4Context(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -889,9 +927,9 @@ public class SecurityParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(103);
+			setState(102);
 			match(GUARANTEE);
-			setState(104);
+			setState(103);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ASSET_COMPUTER) | (1L << ASSET_IOT_DEVICE) | (1L << ASSET_SERVER))) != 0)) ) {
 			_errHandler.recoverInline(this);
@@ -901,17 +939,45 @@ public class SecurityParser extends Parser {
 				_errHandler.reportMatch(this);
 				consume();
 			}
-			setState(105);
-			match(ACTION_COMMUNICATE);
-			setState(106);
+			setState(104);
 			_la = _input.LA(1);
-			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << ASSET_COMPUTER) | (1L << ASSET_IOT_DEVICE) | (1L << THING))) != 0)) ) {
+			if ( !(_la==ACTION_COMMUNICATE || _la==SECURE_ACTION_COMMUNICATE) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
 				if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
 				_errHandler.reportMatch(this);
 				consume();
+			}
+			setState(105);
+			match(THING);
+			setState(110);
+			_errHandler.sync(this);
+			switch (_input.LA(1)) {
+			case ASSET_SERVER:
+				{
+				setState(106);
+				match(ASSET_SERVER);
+				}
+				break;
+			case ASSET_COMPUTER:
+				{
+				setState(107);
+				match(ASSET_COMPUTER);
+				}
+				break;
+			case ASSET_IOT_DEVICE:
+				{
+				setState(108);
+				match(ASSET_IOT_DEVICE);
+				}
+				break;
+			case ENDSYMBOL:
+				{
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 			}
 		}
@@ -951,13 +1017,13 @@ public class SecurityParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(108);
+			setState(112);
 			match(GUARANTEE);
-			setState(109);
+			setState(113);
 			match(ASSET_SERVER);
-			setState(110);
+			setState(114);
 			match(ACTION_COMMUNICATE);
-			setState(111);
+			setState(115);
 			match(THING);
 			}
 		}
@@ -996,11 +1062,11 @@ public class SecurityParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(113);
+			setState(117);
 			match(GUARANTEE);
-			setState(114);
+			setState(118);
 			match(ASSET_SERVER);
-			setState(115);
+			setState(119);
 			match(SECURITY);
 			}
 		}
@@ -1016,35 +1082,37 @@ public class SecurityParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\30x\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\33|\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4"+
 		"\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\3\2\6\2\"\n\2\r\2\16\2#\3"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3\63\n\3\3\3\3\3"+
 		"\3\4\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3"+
 		"\7\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\t\3\t\3\t\3\t\3\t\3\n\3\n\3\n\3\n\3\13"+
-		"\3\13\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\f\3\r\3\r\3\r\3\r\3\r"+
-		"\3\16\3\16\3\16\3\16\3\16\3\17\3\17\3\17\3\17\3\17\3\20\3\20\3\20\3\20"+
-		"\3\20\2\2\21\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36\2\6\3\2\3\5\3\2\6"+
-		"\7\3\2\3\4\4\2\3\4\t\t\2u\2!\3\2\2\2\4\62\3\2\2\2\6\66\3\2\2\2\b;\3\2"+
-		"\2\2\n@\3\2\2\2\fE\3\2\2\2\16J\3\2\2\2\20O\3\2\2\2\22T\3\2\2\2\24X\3\2"+
-		"\2\2\26^\3\2\2\2\30d\3\2\2\2\32i\3\2\2\2\34n\3\2\2\2\36s\3\2\2\2 \"\5"+
-		"\4\3\2! \3\2\2\2\"#\3\2\2\2#!\3\2\2\2#$\3\2\2\2$\3\3\2\2\2%\63\5\6\4\2"+
-		"&\63\5\b\5\2\'\63\5\n\6\2(\63\5\f\7\2)\63\5\16\b\2*\63\5\20\t\2+\63\5"+
-		"\22\n\2,\63\5\24\13\2-\63\5\26\f\2.\63\5\30\r\2/\63\5\32\16\2\60\63\5"+
-		"\34\17\2\61\63\5\36\20\2\62%\3\2\2\2\62&\3\2\2\2\62\'\3\2\2\2\62(\3\2"+
-		"\2\2\62)\3\2\2\2\62*\3\2\2\2\62+\3\2\2\2\62,\3\2\2\2\62-\3\2\2\2\62.\3"+
-		"\2\2\2\62/\3\2\2\2\62\60\3\2\2\2\62\61\3\2\2\2\63\64\3\2\2\2\64\65\7\13"+
-		"\2\2\65\5\3\2\2\2\66\67\7\r\2\2\678\7\4\2\289\7\16\2\29:\7\5\2\2:\7\3"+
-		"\2\2\2;<\7\r\2\2<=\7\3\2\2=>\7\16\2\2>?\t\2\2\2?\t\3\2\2\2@A\7\r\2\2A"+
-		"B\7\4\2\2BC\7\20\2\2CD\t\3\2\2D\13\3\2\2\2EF\7\r\2\2FG\t\2\2\2GH\7\24"+
-		"\2\2HI\t\2\2\2I\r\3\2\2\2JK\7\r\2\2KL\7\t\2\2LM\7\26\2\2MN\7\27\2\2N\17"+
-		"\3\2\2\2OP\7\r\2\2PQ\t\4\2\2QR\7\25\2\2RS\7\t\2\2S\21\3\2\2\2TU\7\r\2"+
-		"\2UV\7\5\2\2VW\7\22\2\2W\23\3\2\2\2XY\7\f\2\2YZ\7\4\2\2Z[\7\17\2\2[\\"+
-		"\7\t\2\2\\]\7\5\2\2]\25\3\2\2\2^_\7\f\2\2_`\7\3\2\2`a\7\17\2\2ab\7\t\2"+
-		"\2bc\t\2\2\2c\27\3\2\2\2de\7\f\2\2ef\7\4\2\2fg\7\21\2\2gh\7\b\2\2h\31"+
-		"\3\2\2\2ij\7\f\2\2jk\t\2\2\2kl\7\17\2\2lm\t\5\2\2m\33\3\2\2\2no\7\f\2"+
-		"\2op\7\5\2\2pq\7\17\2\2qr\7\t\2\2r\35\3\2\2\2st\7\f\2\2tu\7\5\2\2uv\7"+
-		"\23\2\2v\37\3\2\2\2\4#\62";
+		"\3\13\3\13\3\13\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\r\3\r\3\r\3\r\3\r\3\16"+
+		"\3\16\3\16\3\16\3\16\3\16\3\16\3\16\5\16q\n\16\3\17\3\17\3\17\3\17\3\17"+
+		"\3\20\3\20\3\20\3\20\3\20\2\2\21\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36"+
+		"\2\b\4\2\3\3\5\5\4\2\16\16\20\20\3\2\3\5\3\2\6\7\3\2\3\4\4\2\17\17\21"+
+		"\21\2|\2!\3\2\2\2\4\62\3\2\2\2\6\66\3\2\2\2\b;\3\2\2\2\n@\3\2\2\2\fE\3"+
+		"\2\2\2\16J\3\2\2\2\20O\3\2\2\2\22T\3\2\2\2\24X\3\2\2\2\26^\3\2\2\2\30"+
+		"c\3\2\2\2\32h\3\2\2\2\34r\3\2\2\2\36w\3\2\2\2 \"\5\4\3\2! \3\2\2\2\"#"+
+		"\3\2\2\2#!\3\2\2\2#$\3\2\2\2$\3\3\2\2\2%\63\5\6\4\2&\63\5\b\5\2\'\63\5"+
+		"\n\6\2(\63\5\f\7\2)\63\5\16\b\2*\63\5\20\t\2+\63\5\22\n\2,\63\5\24\13"+
+		"\2-\63\5\26\f\2.\63\5\30\r\2/\63\5\32\16\2\60\63\5\34\17\2\61\63\5\36"+
+		"\20\2\62%\3\2\2\2\62&\3\2\2\2\62\'\3\2\2\2\62(\3\2\2\2\62)\3\2\2\2\62"+
+		"*\3\2\2\2\62+\3\2\2\2\62,\3\2\2\2\62-\3\2\2\2\62.\3\2\2\2\62/\3\2\2\2"+
+		"\62\60\3\2\2\2\62\61\3\2\2\2\63\64\3\2\2\2\64\65\7\13\2\2\65\5\3\2\2\2"+
+		"\66\67\7\r\2\2\678\7\4\2\289\7\16\2\29:\7\5\2\2:\7\3\2\2\2;<\7\r\2\2<"+
+		"=\t\2\2\2=>\t\3\2\2>?\t\4\2\2?\t\3\2\2\2@A\7\r\2\2AB\7\4\2\2BC\7\22\2"+
+		"\2CD\t\5\2\2D\13\3\2\2\2EF\7\r\2\2FG\t\4\2\2GH\7\26\2\2HI\t\4\2\2I\r\3"+
+		"\2\2\2JK\7\r\2\2KL\7\t\2\2LM\7\31\2\2MN\7\32\2\2N\17\3\2\2\2OP\7\r\2\2"+
+		"PQ\t\6\2\2QR\7\30\2\2RS\7\t\2\2S\21\3\2\2\2TU\7\r\2\2UV\7\5\2\2VW\7\24"+
+		"\2\2W\23\3\2\2\2XY\7\f\2\2YZ\7\4\2\2Z[\7\17\2\2[\\\7\t\2\2\\]\7\5\2\2"+
+		"]\25\3\2\2\2^_\7\f\2\2_`\7\4\2\2`a\7\23\2\2ab\7\b\2\2b\27\3\2\2\2cd\7"+
+		"\f\2\2de\t\4\2\2ef\7\20\2\2fg\t\4\2\2g\31\3\2\2\2hi\7\f\2\2ij\t\4\2\2"+
+		"jk\t\7\2\2kp\7\t\2\2lq\7\5\2\2mq\7\3\2\2nq\7\4\2\2oq\3\2\2\2pl\3\2\2\2"+
+		"pm\3\2\2\2pn\3\2\2\2po\3\2\2\2q\33\3\2\2\2rs\7\f\2\2st\7\5\2\2tu\7\17"+
+		"\2\2uv\7\t\2\2v\35\3\2\2\2wx\7\f\2\2xy\7\5\2\2yz\7\25\2\2z\37\3\2\2\2"+
+		"\5#\62p";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
