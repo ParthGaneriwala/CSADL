@@ -15,7 +15,7 @@ assumption1: ASSUMPTION ASSET_IOT_DEVICE ASSOCIATION_CONNECT ASSET_SERVER ;
 //assume computerA isConnectedTo serverA;
 //assume computerA isConnectedTo computerB;
 //assume computerA isConnectedTo iotDeviceA;
-assumption2: ASSUMPTION ASSET_COMPUTER ASSOCIATION_CONNECT (ASSET_SERVER | ASSET_COMPUTER | ASSET_IOT_DEVICE) ;
+assumption2: ASSUMPTION (ASSET_SERVER | ASSET_COMPUTER) (ASSOCIATION_CONNECT|SECURE_ACTION_CONNECT) (ASSET_SERVER | ASSET_COMPUTER | ASSET_IOT_DEVICE) ;
 
 
 //assume iotDeviceA has internetFeature;
@@ -28,7 +28,7 @@ assumption3: ASSUMPTION ASSET_IOT_DEVICE ASSOCIATION_HAS (ASSET_SOFTWARE_FEATURE
 //assume computerA knowKeyOf computerB;
 //assume iotDeviceA knowKeyOf serverA;
 //assume serverA hasKeyOf iotDeviceA;
-assumption4: ASSUMPTION (ASSET_COMPUTER | ASSET_IOT_DEVICE |ASSET_SERVER) ASSOCIATION_KEY (ASSET_COMPUTER | ASSET_IOT_DEVICE |ASSET_SERVER);
+assumption4: ASSUMPTION (ASSET_COMPUTER | ASSET_IOT_DEVICE |ASSET_SERVER) ENCRYPTION (ASSET_COMPUTER | ASSET_IOT_DEVICE |ASSET_SERVER);
 
 //assume message hasSensitive content
 //assume data hasNormal content
@@ -60,13 +60,13 @@ guarantee1: GUARANTEE ASSET_IOT_DEVICE ACTION_COMMUNICATE THING ASSET_SERVER ;
 //guarantee computerA send message iotDeviceA;
 //guarantee computerB receive data iotDeviceA;
 //guarantee computerB receive message iotDeviceA;
-guarantee2: GUARANTEE ASSET_COMPUTER ACTION_COMMUNICATE THING (ASSET_SERVER | ASSET_COMPUTER | ASSET_IOT_DEVICE);
 
 //guarantee iotDeviceA performs accessPointCreation;
 //guarantee iotDevice performs thermalImageRecognition;
-guarantee3: GUARANTEE ASSET_IOT_DEVICE ACTION_HAS SOFTWARE_FEATURE ; // come up with a guarantee for hardware components
+guarantee2: GUARANTEE ASSET_IOT_DEVICE ACTION_HAS SOFTWARE_FEATURE ; // come up with a guarantee for hardware components
+guarantee3: GUARANTEE (ASSET_COMPUTER | ASSET_IOT_DEVICE | ASSET_SERVER) SECURE_ACTION_CONNECT (ASSET_COMPUTER | ASSET_IOT_DEVICE | ASSET_SERVER);
 
-guarantee4: GUARANTEE (ASSET_COMPUTER | ASSET_IOT_DEVICE | ASSET_SERVER) ACTION_COMMUNICATE (ASSET_COMPUTER | ASSET_IOT_DEVICE |THING);
+guarantee4: GUARANTEE (ASSET_COMPUTER | ASSET_IOT_DEVICE | ASSET_SERVER) (ACTION_COMMUNICATE|SECURE_ACTION_COMMUNICATE) THING (ASSET_SERVER|ASSET_COMPUTER | ASSET_IOT_DEVICE |);
 // assumption1:  ASSUMPTION ASSET ASSOCIATION (ASSET|MESSAGE) ;
 // assumption2: ASSUMPTION MESSAGE SENSITIVITY CONTENT;
 // guarantee:   GUARANTEE ASSET  ACTION  (ASSET|MESSAGE) ;
@@ -98,6 +98,8 @@ ASSOCIATION_CONNECT: 'isConnectedTo' ;
 ACTION_COMMUNICATE:   'encrypt'   | 'decrypt' | 'read'  |
                       'send'      | 'receive' | 'forward' ;
 
+SECURE_ACTION_CONNECT: 'isSecurelyConnectedTo';
+SECURE_ACTION_COMMUNICATE : 'securelySend' | 'securelyReceive' | 'securelyForward';
 ASSOCIATION_HAS: 'has' ; // if it has a particular feature, then it can perform that action
 ACTION_HAS: 'performs' ;
 
@@ -108,6 +110,7 @@ SERVER_TYPE: 'isFirstParty' | 'isThirdParty' | 'isDemExternal' | 'isDemInternal'
 
 //ACTION_HARDWARE_COMPONENT: ;
 SECURITY: 'isSecure';
+ENCRYPTION: 'hasFeatureEventEncryption';
 
 //ACTION:       'encrypt'   | 'decrypt' | 'read'  |
 //              'send'      | 'receive' | 'forward'  ;
