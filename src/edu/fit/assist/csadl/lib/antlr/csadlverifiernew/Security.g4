@@ -7,16 +7,18 @@ grammar Security;
 
 //csadl: BEGIN statement+ END ;
 csadl : statements+ ;
-statements: assumption+ | guarantee+;
-assumption :connection| feature | context | generation| server_type ;
-guarantee :;
-connection:;
-feature:;
-context:;
-generation:;
-sever_type:;
-(assumption1  | assumption2 | assumption3 | assumption4 | assumption5 |assumption6|assumption7| guarantee1 | guarantee2  |guarantee3 |guarantee4|guarantee5|guarantee6) ENDSYMBOL ;
 
+statements: assumption+ | guarantee+;
+
+assumption :(connection| feature | context | generation| server_type) ENDSYMBOL ;
+
+guarantee :(guarantee1 | guarantee2  |guarantee3 |guarantee4|guarantee5|guarantee6) ENDSYMBOL ;
+
+connection:assumption1 | assumption2;
+feature:assumption3 | assumption4;
+context:assumption5;
+generation:assumption6;
+server_type:assumption7;
 //assume iotDeviceA isConnectedTo serverA;
 assumption1: ASSUMPTION ASSET_IOT_DEVICE ASSOCIATION_CONNECT ASSET_SERVER ;
 
